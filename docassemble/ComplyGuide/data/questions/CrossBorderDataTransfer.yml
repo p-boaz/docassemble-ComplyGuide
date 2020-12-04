@@ -1,0 +1,73 @@
+mandatory: True
+code: |
+  if inside_EEA:
+    importing_country
+    if importing_country in ['AD', 'AR', 'CA', 'FO', 'GG', 'IL', 'IM', 'JP', 'JE',     'NZ', 'CH', 'UY']:
+      adequacy_decision
+    party_rel
+    transfer_tool
+    non_EEA_protections
+    supp_measures
+  else:
+    alt_exporting_country
+  final_screen
+---
+objects:
+  address: Address
+---
+question: Are you based in the European Economic Area (EEA)?
+yesno: inside_EEA
+---
+question: Where are you exporting data?
+fields:
+  - Country: importing_country
+    code: |
+      countries_list()
+---
+question: What is your organizational relationship with the importer?
+field: party_rel
+dropdown:
+  - internal partner
+  - external vendor
+  - subcontractor
+---
+question: What tool are you using to transfer the data?
+subquestion: You need to rely on one of the transfer tools listed under Articles 46 GDPR for transfers that are regular and repetitive.
+field: transfer_tool
+dropdown:
+  - standard contracts (SCCs) 
+  - ad hoc contractual clauses
+  - codes of conduct
+  - binding corporate rules (BCRs)
+  - certification mechanisms
+  - another GDPR Article 49 derogation
+  - none of the above
+---
+question: Protections in Third Country
+subquestion: Have you assessed if there is anything in the law or practice of ${ importing_country } that may impinge on the effectiveness of the appropriate safeguards of the transfer tools you are relying on, in the context of your specific transfer?
+yesnomaybe: non_EEA_protections
+---
+question: Based on the information you provided, it may be necessary to implement supplementary measures to your data transfers. Please select one or more supplementary measures that you would like to learn more about.  
+field: supp_measures
+choices:
+  - Technical safeguards
+  - Contractual safeguards
+  - Oranizational measures
+---
+question: Since you are not exporting data outside the EEA, you do not need to follow EDPB guidelines on cross-border data transfers. In what country are you headquartered? 
+fields:
+  - Country: alt_exporting_country
+    code: |
+      countries_list()
+---
+event: adequacy_decision
+question: You are in luck! This country has obtained an adequacy decision. You do not need to take any further steps, other than monitoring that the decision remains valid.
+---
+event: final_screen
+question: Thanks for that information.
+---
+auto terms:
+  adequacy decision: |
+    At any time, the European Parliament and the Council may request the European Commission to maintain, amend or withdraw the adequacy decision on the grounds that its act exceeds the implementing powers provided for in the regulation.
+
+    The effect of such a decision is that personal data can flow from the EU (and Norway, Liechtenstein and Iceland) to that third country without any further safeguard being necessary. In others words, transfers to the country in question will be assimilated to intra-EU transmissions of data.
