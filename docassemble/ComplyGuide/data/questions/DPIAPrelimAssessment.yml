@@ -1,27 +1,145 @@
+---
+metadata:
+  interview_identifier: "DPIA Prelim"
+  title: |
+    DPIA Preliminary Assessment
+  short title: |
+    Initial DPIA Survey
+  description: |
+    This is a survey to see if a DPIA is necessary
+  authors:
+    - name: Peter Boaz
+      organization: ComplyGuide
+---
+event: review_answers
 question: |
-  Please tell me what you think.
-fields:
-  - "Select the fruits you like": likes_fruit
-    datatype: checkboxes
-    code: |
-      [
-        {'apple': 'Apples'},
-        {'peach': 'Peaches'},
-        {'pear': 'Pears'}
-      ]
-  - "What is your favorite fruit overall?": favorite_fruit
+  Review your answers
+review:
+  - note: |
+      Welcome to the review of answers.
+  - note: |
+      #### The features of your data processing activity
+    show if: new_tech
+  - Revisit Answer: new_tech
+    button: |
+      You said you liked ${ new_tech }.
+  - Revisit Answer: old_system
+    button: |
+      You said you liked ${ old_system }.
+  - Revisit Answer: data_collected
+    button: |
+      You said you liked ${ data_collected }.
+  - note: |
+      We suspect you prefer
+      ${ new_tech } to ${ old_system }.
+continue button field: answers_reviewed
+---
+question: |
+  Please answer these questions to determine if you need to complete a full Data Protection Impact Assessment (DPIA)
+subquestion: |
+  This survey is meant to help organisations with GDPR compliance.
+  
+fields:    
+  - Will the processing involve a new technology/system? : new_tech
+    datatype: yesnoradio
+    
+  - Please provide details : new_tech_details
+    datatype: area
+    show if:
+      variable: new_tech
+      is: True
+      
+  - Will the processing involve using an old system for new processing purposes? : old_system
+    datatype: yesnoradio
+    
+  - Please provide details : old_system_details
+    datatype: area
+    show if:
+      variable: old_system
+      is: True
+      
+  - Will you collect any of the following data? : data_collected
+    input type: radio
+    choices:
+      - Name: 'name'
+      - Address: 'address'
+      - Email: 'email'
+      - Telephone number: 'telephone number'
+      - Date of birth or age: 'date of birth or age'
+      - Gender: 'gender'
+      - Nationality: 'nationality'
+      
+  - Will you be collecting special categories of data? : special_categories_data
+    datatype: radio
+    choices:
+      - Race
+      - Ethnic origin
+      - Religious or philosophical beliefs
+      - Political opinions
+      - Trade union memberships
+      - Biometric data used to identify an individual
+      - Genetic data
+      - Health data
+      - Data related to sexual preferences, sex life, and/or sexual orientation.
+
+  - Will you be collecting criminal offense data? : crim_data
+    datatype: yesnoradio
+    
+  - Will you be collecting data related to vulnerable groups or individuals/from vulnerable groups or individuals? : vulnerable_groups
+    datatype: yesnoradio
+    
+  - Will you be collecting location data? : location_data
+    datatype: yesnoradio
+      
+  - Fill in any other information that you will process (e.g., frequency of processing, volume of subjects) : other_info
+
+  - Will the system/processing involve monitoring of data subjects? : monitoring_subjects
+    datatype: yesnoradio
+  
+  - Please provide details: monitoring_subjects_details
+    show if: monitoring_subjects
+      
+  - Will any profiling be undertaken on the personal data processed? : profiling_data
+    datatype: yesnoradio
+      
+  - Will any automated decision-making be undertaken in relation to the personal data? : auto_decisionmaking
+    datatype: yesnoradio
+    
+  - Will the system involve any aggregation of data? : data_aggregation
+    datatype: yesnoradio
+      
+  - Indicate the number of data subjects that the personal data processing affects : number_of_data_subjects
+    datatype: radio
+    choices:
+      - Less than 10
+      - 50 to 100
+      - 100 to 500
+      - 500 to 1000
+      - More than 1000
+      - More than 5000
+      
+continue button field: survey_questions
 ---
 question: |
   Thank you for your thoughts.
 subquestion: |
-  % if likes_fruit['apple']:
+  % if new_tech:
   You like apples.
   % endif
-  % if likes_fruit['peach']:
-  You like peaches.
+  % if new_tech:
+  You like apples.
   % endif
-  % if likes_fruit['pear']:
+  % if crim_data:
   You like pears.
   % endif
-  Your favorite, though, is ${ favorite_fruit }.
+continue button field: final_screen
+---
 mandatory: True
+code: |
+  survey_questions
+  answers_reviewed
+  final_screen
+---
+auto terms:
+  special categories: |
+    This includes data that can be used to infer something about an individual, either on its own, or in combination with other data.

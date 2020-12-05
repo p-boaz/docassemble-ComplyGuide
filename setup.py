@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.ComplyGuide',
       version='0.0.1',
       description=('A docassemble extension.'),
-      long_description='# docassemble.ComplyGuide\n\nA docassemble extension.\n\n## Author\n\nAdmin, peter.boaz@complyguide.com\n\n',
+      long_description='# docassemble.ComplyGuide\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\nAdmin, peter.boaz@complyguide.com\r\n\r\n',
       long_description_content_type='text/markdown',
       author='Peter',
       author_email='peter.boaz@complyguide.com',
