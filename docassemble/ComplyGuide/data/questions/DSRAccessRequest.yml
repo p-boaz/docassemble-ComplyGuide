@@ -26,7 +26,7 @@ question: |
   What interview would you like to complete?
 field: user.goal
 choices:
-  - Fruit quiz: fruit
+  - Controller or Processor: controllerOrProcessor
   - Vegetable quiz: vegetable
   - Legume quiz: legume
 ---
@@ -52,11 +52,11 @@ choices:
   - "Wiser than most"
 ---
 question: |
-  Fruit quiz results
+  Controller or Processor results
 subquestion: |
   Your favorite fruit is
   ${ user.favorite_fruit }.
-field: endpoint['fruit']
+field: endpoint['controllerOrProcessor']
 continue button label: Try again
 ---
 question: |
@@ -91,9 +91,9 @@ field: endpoint['legume']
 continue button label: Try again
 ---
 question: |
-  What is your favorite fruit?
+  Does your organisation decide...
 fields:
-  Favorite fruit: user.favorite_fruit
+  yesno: user.favorite_fruit
 ---
 question: |
   What is your favorite vegetable?
