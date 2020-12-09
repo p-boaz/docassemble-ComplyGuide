@@ -1,0 +1,171 @@
+mandatory: True
+question: |
+  All done
+subquestion: |
+  The data processing activities are ${ activity }.
+  
+  ${ activity.table }
+  
+  ${ activity.add_action() }
+---
+objects:
+  - activity: |
+      DAList.using(
+        object_type=Person,
+        complete_attribute='complete',
+        there_are_any=True)
+---
+code: |
+  activity[i].name.text
+  activity[i].purpose
+  activity[i].categories_of_indiv
+  activity[i].categories_of_data
+  activity[i].categories_of_recipients
+  activity[i].third_countries
+  activity[i].lawful_basis
+  activity[i].complete = True
+---
+table: activity.table
+rows: activity
+columns:
+  - Business Function: |
+      row_item.name.text
+  - Purpose: |
+      row_item.purpose
+  - Categories of Individuals: |
+      row_item.categories_of_indiv
+  - Categories of Personal Data: |
+      row_item.categories_of_data
+  - Categories of Recipients: |
+      row_item.categories_of_recipients
+  - Third Countries or International Orgs: |
+      row_item.third_countries
+  - Lawful Basis: |
+      row_item.lawful_basis
+edit:
+  - name.text
+  - purpose
+  - categories_of_indiv
+  - categories_of_data
+  - categories_of_recipients
+  - third_countries
+  - lawful_basis
+---
+question: |
+  What is the ${ ordinal(i) } activity's business function?
+fields:
+  - Business Function: activity[i].name.text
+    choices:
+      - Finance
+      - Human Resources
+      - Sales
+      - Other
+  - Please Specify: activity[i].name.text
+    js show if: |
+      val("activity[i].name.text") == "Other"
+---
+question: |
+  What is the purpose of processing?
+fields:
+  - Purpose: activity[i].purpose
+    choices:
+      - Payroll 
+      - Personnel File
+      - Recruitment
+      - Direct Marketing
+      - Other
+  - Please Specify: activity[i].purpose
+    js show if: |
+      val("activity[i].purpose") == "Other"
+---
+question: |
+  Whose personal data is processed?
+fields:
+  - Categories of Individuals: activity[i].categories_of_indiv
+    choices:
+      - Employees
+      - Successful Candidates
+      - Unsuccessful Candidates
+      - Existing Customers
+      - Potential Customers
+      - Other
+  - Please Specify: activity[i].categories_of_indiv
+    js show if: |
+      val("activity[i].categories_of_indiv") == "Other"
+---
+question: |
+  What type of personal data is processed? 
+fields:
+  - Data categories: activity[i].categories_of_data
+    choices:
+      - Contact Details
+      - Bank Details
+      - Pension Details
+      - Annual Leave Details
+      - Sick Leave Details
+      - Performance Details
+      - Employment History
+      - Pay Details
+      - Contact Details
+      - Ethnicity
+      - Disability Details
+      - Purchase History
+      - Qualifications
+      - Lifestyle Information
+      - Other
+  - Please Specify: activity[i].categories_of_data
+    js show if: |
+      val("activity[i].categories_of_data") == "Other"
+---
+question: |
+  What entities receive the personal data?
+fields:
+  - Categories of Recipients: activity[i].categories_of_recipients
+    choices:
+      - Internal department that processes the concerned data
+      - Processor
+      - Recipients in third countries or international organisations
+      - Institutional or commercial partners
+      - Other
+  - Please Specify: activity[i].categories_of_recipients
+    js show if: |
+      val("activity[i].categories_of_recipients") == "Other"
+  - Do you have a Data Processing Agreement with this processor? :               activity[i].has_DPA
+    datatype: yesnoradio
+    js show if: |
+      val("activity[i].categories_of_recipients") == "Processor"
+---
+question: |
+  Third country transfers
+fields:
+  - Countries: activity[i].third_countries
+    code: |
+      countries_list()
+---
+question: |
+  What is the Art. 6 lawful basis for processing personal data? 
+fields:
+  - Lawful Basis: activity[i].lawful_basis
+    choices:
+      - Consent
+      - Contract
+      - Legal obligation
+      - Vital interests
+      - Public task
+      - Legitimate interests
+  - Have you completed a Legitimate Interest Assessment (LIA)?:                 activity[i].has_LIA
+    datatype: yesnoradio
+    show if:
+      variable: activity[i].lawful_basis
+      is: Legitimate interests
+---
+question: |
+  Are there any more activities
+  you would like to mention?
+yesno: activity.there_is_another
+---
+question: |
+  Who is your favorite activity?
+fields:
+  - Favorite: favorite
+    code: activity

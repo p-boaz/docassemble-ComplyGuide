@@ -2,7 +2,7 @@ mandatory: True
 code: |
   if inside_EEA:
     importing_country
-    if importing_country in ['AD', 'AR', 'CA', 'FO', 'GG', 'IL', 'IM', 'JP', 'JE',     'NZ', 'CH', 'UY']:
+    if importing_country in ['AD', 'AR', 'CA', 'FO', 'GG', 'IL', 'IM', 'JP', 'JE', 'NZ', 'CH', 'UY']:
       adequacy_decision
     party_rel
     transfer_tool

@@ -22,7 +22,7 @@ review:
     show if: new_tech
   - Revisit Answer: new_tech
     button: |
-      You said you liked ${ new_tech }.
+      You said the processing will involve a new technology/system.
   - Revisit Answer: old_system
     button: |
       You said you liked ${ old_system }.
@@ -59,7 +59,7 @@ fields:
       is: True
       
   - Will you collect any of the following data? : data_collected
-    input type: radio
+    datatype: checkboxes
     choices:
       - Name: 'name'
       - Address: 'address'
@@ -70,7 +70,7 @@ fields:
       - Nationality: 'nationality'
       
   - Will you be collecting special categories of data? : special_categories_data
-    datatype: radio
+    datatype: checkboxes
     choices:
       - Race
       - Ethnic origin
@@ -91,7 +91,8 @@ fields:
   - Will you be collecting location data? : location_data
     datatype: yesnoradio
       
-  - Fill in any other information that you will process (e.g., frequency of processing, volume of subjects) : other_info
+  - Is there any other information that you will process (e.g., frequency of processing, volume of subjects)? : other_info
+    datatype: yesnoradio
 
   - Will the system/processing involve monitoring of data subjects? : monitoring_subjects
     datatype: yesnoradio
